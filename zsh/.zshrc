@@ -86,5 +86,3 @@ export PATH=$PATH:"$HOME/.local/bin"
 # 加载 powerlevel10k 主题
 #zinit ice depth=1
 #zinit light romkatv/powerlevel10k
-
-
