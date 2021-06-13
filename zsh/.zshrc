@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Created by newuser for 5.8
 
 ### Added by Zinit's installer
@@ -76,8 +69,8 @@ zinit snippet 'https://github.com/junegunn/fzf/blob/master/shell/completion.zsh'
 zinit snippet 'https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh'
 zinit ice as="completion"
 zinit snippet 'https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/fd/_fd'
-zinit ice mv="*.zsh -> _exa" as="completion"
-zinit snippet 'https://github.com/ogham/exa/blob/master/completions/completions.zsh'
+zinit ice as="completion"
+zinit snippet 'https://github.com/ogham/exa/tree/master/completions/zsh/_exa'
 
 # 不需要花里胡哨的 ls，我们有更花里胡哨的 exa
 DISABLE_LS_COLORS=true
@@ -91,8 +84,7 @@ export RUSTUP_UPDATE_ROOT='https://mirrors.ustc.edu.cn/rust-static/rustup'
 export PATH=$PATH:"$HOME/.local/bin"
 
 # 加载 powerlevel10k 主题
-zinit ice depth=1
-zinit light romkatv/powerlevel10k
+#zinit ice depth=1
+#zinit light romkatv/powerlevel10k
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
