@@ -5,3 +5,4 @@ scoop bucket add extras
 scoop install concfg
 scoop install posh-git
 Install-Module Get-ChildItemColor -AllowClobber -Proxy http://127.0.0.1:10809
+Install-Module oh-my-posh -Scope CurrentUser
