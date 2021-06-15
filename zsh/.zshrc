@@ -77,6 +77,7 @@ DISABLE_LS_COLORS=true
 alias ls=exa
 # 配置 fzf 使用 fd
 export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
 # ---- 加载完了 ----
 
 export RUSTUP_DIST_SERVER='https://mirrors.ustc.edu.cn/rust-static'
