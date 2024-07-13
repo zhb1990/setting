@@ -5,9 +5,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-fi
+autoload -U compinit
+compinit
+
+#allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -32,47 +34,51 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
+zinit wait="0" lucid light-mode for \
+    hlissner/zsh-autopair \
+    hchbaw/zce.zsh \
+    wfxr/forgit
+
+zinit ice from"gh-r" as"program"
+zinit light junegunn/fzf
+
+# 快速目录跳转
+zinit ice lucid wait='1'
+zinit light Aloxaf/fzf-tab
+zinit light skywind3000/z.lua
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zdharma-continuum/history-search-multi-word
+
+zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
+
+zinit ice from"gh-r" as"program" mv"ripgrep* -> ripgrep" pick"ripgrep/rg"
+zinit light BurntSushi/ripgrep
+
 # Load powerlevel10k theme
 zinit ice depth"1" # git clone depth
 zinit light romkatv/powerlevel10k
 
-zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
-
-# A glance at the new for-syntax – load all of the above
-# plugins with a single command. For more information see:
-# https://zdharma-continuum.github.io/zinit/wiki/For-Syntax/
-zinit for \
-    light-mode \
-  zsh-users/zsh-autosuggestions \
-    light-mode \
-  zdharma-continuum/fast-syntax-highlighting \
-  zdharma-continuum/history-search-multi-word 
-
-# Binary release in archive, from GitHub-releases page.
-# After automatic unpacking it provides program "fzf".
-zinit ice from"gh-r" as"program"
-zinit light junegunn/fzf
-
-# Scripts built at install (there's single default make target, "install",
-# and it constructs scripts by `cat'ing a few files). The make'' ice could also be:
-# `make"install PREFIX=$ZPFX"`, if "install" wouldn't be the only default target.
-zinit ice as"program" pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX"
+zinit ice as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX"
 zinit light tj/git-extras
+source $HOME/.local/share/zinit/plugins/tj---git-extras/etc/git-extras-completion.zsh
 
 # 不需要花里胡哨的 ls，我们有更花里胡哨的 exa
 DISABLE_LS_COLORS=true
-alias ls=exa
+alias ls=eza
+
+alias vim=nvim
+
+# sharkdp/fd
+zinit ice as"command" from"gh-r" mv"fd*/fd -> fd" pick"fd"
+zinit light sharkdp/fd
+
 # 配置 fzf 使用 fd
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
-source /Users/zhb/.local/share/zinit/plugins/tj---git-extras/etc/git-extras-completion.zsh
 
-export PATH=/Users/zhb/dev/depot_tools:$PATH
-export DEPOT_TOOLS_WIN_TOOLCHAIN=0
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-
-alias luamake="/Users/zhb/dev/luamake/luamake"
