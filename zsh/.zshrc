@@ -1,21 +1,17 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# 🍺 Homebrew国内镜像加速配置
+# 推荐使用USTC或清华镜像，阿里镜像git clone可能有问题
 
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-fi
+export HOMEBREW_BREW_GIT_REMOTE="https://mirrors.ustc.edu.cn/brew.git"
+export HOMEBREW_CORE_GIT_REMOTE="https://mirrors.ustc.edu.cn/homebrew-core.git"
+export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
 
-export VCPKG_ROOT="$HOME/vcpkg"
+# 🎯 最新brew API国内加速（关键配置）
+export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api"
 
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+# 🤫 隐藏环境变量提示
+export HOMEBREW_NO_ENV_HINTS="1"
 
-autoload -Uz compinit && compinit
-
-setopt COMPLETE_IN_WORD
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -26,22 +22,20 @@ if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
         print -P "%F{160} The clone has failed.%f%b"
 fi
 
+export VCPKG_ROOT="$HOME/vcpkg"
+
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+autoload -Uz compinit && compinit
+
+setopt COMPLETE_IN_WORD
+
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
-
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
 zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
-
-
+  zdharma-continuum/zinit-annex-{'readurl','bin-gem-node','patch-dl','rust'}
 
 zinit snippet OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh
 
@@ -83,13 +77,11 @@ source /Users/zhb/.local/share/zinit/plugins/tj---git-extras/etc/git-extras-comp
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
 
-export PATH=/Users/zhb/dev/depot_tools:/Users/zhb/vcpkg:$PATH
+export PATH=/Users/zhb/vcpkg:$PATH
 export DEPOT_TOOLS_WIN_TOOLCHAIN=0
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-alias luamake="/Users/zhb/dev/luamake/luamake"
 
 zstyle ":completion:*:descriptions" format "[%d]"
 zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
@@ -102,4 +94,4 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':completion:*' fzf-search-display true
 zstyle ":fzf-tab:*" switch-group "ctrl-h" "ctrl-l"
 
-
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
